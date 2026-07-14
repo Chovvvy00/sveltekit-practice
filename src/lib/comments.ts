@@ -27,4 +27,8 @@ export const comments = [
         id: 7,
         text: 'This is the seventh comment of the day'
     },
+     {
+        id: 8,       
+        text: 'This is the seventh comment of the day'
+    },
 ]

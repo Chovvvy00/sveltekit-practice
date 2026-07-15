@@ -1,7 +1,7 @@
-import type { PageServerLoad } from './$types';
-import { error } from '@sveltejs/kit';
+import { json, error } from '@sveltejs/kit';
+import type { RequestHandler } from './$types';
 
-const CATEGORIES: Record<string, string[]> = { 
+const CATEGORIES: Record<string, string[]> = {
     "confused": ['wisdom', 'philosophy'],
     "sad": ['life', 'inspirational', 'faith', 'nature', 'death'],
     "terrified": ['truth', 'success', 'courage', 'fear'],
@@ -11,7 +11,7 @@ const CATEGORIES: Record<string, string[]> = {
     "angry": ['time', 'freedom'],
 };
 
-export const load: PageServerLoad = async ({ params }) => {
+export const GET: RequestHandler = async ({ params }) => {
     const slug = params.slug;
     const selectedCategories = CATEGORIES[slug];
 
@@ -19,11 +19,9 @@ export const load: PageServerLoad = async ({ params }) => {
         throw error(404, 'Category not found');
     }
 
-    // Join arrays with commas natively
     const categoryString = selectedCategories.join(',');
-    
-    // In production, move your API key to an environment variable (.env)
-    const apiKey = "f4bSDRAioNSuiM0xnJPdkGIdTzCW5IZ7dOL20oga"; 
+
+    const apiKey = "f4bSDRAioNSuiM0xnJPdkGIdTzCW5IZ7dOL20oga";
 
     try {
         const response = await fetch(`https://api.api-ninjas.com/v2/quotes?categories=${encodeURIComponent(categoryString)}`, {
@@ -38,9 +36,9 @@ export const load: PageServerLoad = async ({ params }) => {
         }
 
         const quotes = await response.json();
-        return { quotes };
+        return json(quotes);
 
     } catch (err) {
-        throw error(500, `Could not load quotes ${err}`, );
+        throw error(500, `Could not load quotes ${err}`);
     }
 };

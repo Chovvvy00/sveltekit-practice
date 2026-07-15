@@ -29,7 +29,7 @@
 <div class="flex flex-col items-center justify-center">
     <h1 class="text-2xl mb-5 font-bold text-center">How do you feel?</h1>
 
-    <div class="flex flex-row gap-3">
+    <div class="grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-7 ">
         {#each emotions as emotion (emotion.id)}
             <button 
                 type="button"
